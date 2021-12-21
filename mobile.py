@@ -51,7 +51,7 @@ def runNewsCrawlingByNaver():
     chromeOptions = webdriver.ChromeOptions()
     chromeOptions.add_argument('headless')
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chromeOptions)
+    driver = webdriver.Chrome(executable_path="./driver/chromedriver", options=chromeOptions)
     driver.get(url)
 
     headTopics = driver.find_elements(By.CLASS_NAME, 'cluster_head_topic')
