@@ -1,4 +1,5 @@
 import boto3
+from botocore.config import Config
 import time
 import smtplib
 import os
@@ -19,7 +20,12 @@ SOURCE_PHONE_NUMBER = os.getenv('SOURCE_PHONE_NUMBER')
 DESTINATION_PHONE_NUMBER = os.getenv('DESTINATION_PHONE_NUMBER')
 SMTP_PW = os.getenv('SMTP_PW')
 SMTP_EMAIL = os.getenv('SMTP_MAIL')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID'),
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
+botoConfig = Config(
+    region_name='ap-northeast-2'
+)
 
 def isMorning():
     morning = time.strftime('%H:%M:%S', time.localtime(time.time()))
@@ -29,7 +35,11 @@ def isMorning():
 
 def callToNumber():
     # AWS를 이용한 전화 걸기
-    client = boto3.client('connect')
+    client = boto3.client('connect',
+                          config=botoConfig,
+                          aws_access_key_id=AWS_ACCESS_KEY_ID,
+                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+                          )
     client.start_outbound_voice_contact(
         DestinationPhoneNumber=DESTINATION_PHONE_NUMBER,
         ContactFlowId=CONTACT_FLOW_ID,
