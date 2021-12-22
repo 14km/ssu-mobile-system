@@ -9,8 +9,6 @@ from email.mime.text import MIMEText
 # 크롤링을 위한 selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 # 환경 변수를 가져오기 위함.
 load_dotenv()
@@ -51,7 +49,7 @@ def runNewsCrawlingByNaver():
     chromeOptions = webdriver.ChromeOptions()
     chromeOptions.add_argument('headless')
 
-    driver = webdriver.Chrome(executable_path="./driver/chromedriver", options=chromeOptions)
+    driver = webdriver.Chrome(executable_path="/usr/lib/chromium-browser/chromedriver", options=chromeOptions)
     driver.get(url)
 
     headTopics = driver.find_elements(By.CLASS_NAME, 'cluster_head_topic')
@@ -75,6 +73,3 @@ def runEmailSend(msg):
     smtp.sendmail(SMTP_EMAIL, SMTP_EMAIL, msg.as_string())
     smtp.quit()
     print("[2] 이메일 발송 완료")
-
-
-runNewsCrawlingByNaver()
